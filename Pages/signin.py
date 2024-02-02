@@ -32,6 +32,23 @@ class SigninPage:
         )
 
         ele_next.click()
+        ele_change_location = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable((AppiumBy.XPATH, '//android.widget.TextView[@text="Hyderabad"]'))
+        )
+        ele_change_location.click()
+        ele_new_address = WebDriverWait(appium_driver, 20).until(
+            EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.EditText[@text="Search a new address"]'))
+        )
+        ele_new_address.send_keys('siddipet')
+        ele_new_address_click = WebDriverWait(appium_driver, 20).until(
+            EC.presence_of_element_located(
+                (AppiumBy.XPATH, '//android.widget.TextView[@text="Siddipet, Telangana, India"]'))
+        )
+        ele_new_address_click.click()
+        ele_conf_continue_click = WebDriverWait(appium_driver, 20).until(
+            EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.TextView[@text="Confirm & Continue"]'))
+        )
+        ele_conf_continue_click.click()
     @staticmethod
     def test_sign_with_password(appium_driver):
         ele_mobile_no = WebDriverWait(appium_driver, 20).until(
