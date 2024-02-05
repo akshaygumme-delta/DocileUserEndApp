@@ -15,10 +15,10 @@ class SigninPage:
         ele_mobile_no.clear()
 
         # Enter the mobile number into the input field
-        ele_mobile_no.send_keys('7972951602')  # Change the phone number as needed
+        ele_mobile_no.send_keys('6301518207')  # Change the phone number as needed
 
         # Assert that the entered text in the input field matches the expected value
-        assert ele_mobile_no.text == '7972951602', "Failed to enter the correct phone number"
+        assert ele_mobile_no.text == '6301518207', "Failed to enter the correct phone number"
 
         ele_sign_in_continue = WebDriverWait(appium_driver, 20).until(
             EC.element_to_be_clickable((AppiumBy.XPATH, '//android.widget.TextView[@text="Continue"]'))
@@ -59,13 +59,13 @@ class SigninPage:
         ele_mobile_no.clear()
 
         # Enter the mobile number into the input field
-        ele_mobile_no.send_keys('7972951602')
+        ele_mobile_no.send_keys('6301518207')
 
         ele_password_enter = WebDriverWait(appium_driver, 20).until(
             EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.EditText[@text="Password"]'))
         )
         ele_password_enter.clear()
-        ele_password_enter.send_keys('Akshay@7')
+        ele_password_enter.send_keys('Ravi@1234')
         ele_login_button = WebDriverWait(appium_driver, 20).until(
             EC.element_to_be_clickable((AppiumBy.XPATH, '//android.widget.TextView[@text="Login"]'
                                         ))

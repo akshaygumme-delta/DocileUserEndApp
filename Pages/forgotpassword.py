@@ -16,7 +16,7 @@ class Forgotpassword:
         ele_enter_mob_no = WebDriverWait(appium_driver, 20).until(
             EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.EditText[@text="Enter your Phone Number"]')
         ))
-        ele_enter_mob_no.send_keys('7972951602')
+        ele_enter_mob_no.send_keys('6301518207')
 
         ele_send_btn = WebDriverWait(appium_driver, 20).until(
             EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.TextView[@text="Send"]')

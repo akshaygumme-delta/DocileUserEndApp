@@ -12,7 +12,7 @@ def appium_driver():
     options = AppiumOptions()
     options.load_capabilities({
             "platformName": "Android",
-            "deviceName": "adb-RZ8R21SMYNN-i8os4l._adb-tls-connect._tcp",
+            "deviceName": "adb-10BD9D2K350007X-mczaYj._adb-tls-connect._tcp",
 
         })
     # Add other desired capabilities as needed
@@ -27,17 +27,15 @@ class TestAppiumAutomation:
     def test_click_docile_element(appium_driver):
         el = WebDriverWait(appium_driver, 20).until(
             EC.element_to_be_clickable((
-                AppiumBy.XPATH, '//android.widget.TextView[@content-desc="Docile"]'
+                AppiumBy.XPATH, '(//android.widget.TextView[@content-desc="Docile"])'
         ))
         )
         el.click()
         WebDriverWait(appium_driver, 20).until(
             EC.visibility_of_element_located((AppiumBy.XPATH, '//android.widget.TextView[@text="Get Started"]'))
         )
-        # # Verification that you're on the next page
-        # assert "NextPageActivity" in appium_driver.current_activity
 
-        print("Test Passed! Successfully navigated to the next page.")
+        print("App started Successfully")
 
     def test_getting_start_element(self, appium_driver):
         getstarted.start.test_click_get_started_element(appium_driver)
@@ -55,30 +53,81 @@ class TestAppiumAutomation:
         appium_driver.press_keycode(3)
         appium_driver.quit()
 
-    # def test_signin_details(self,appium_driver):
-    #     ele_sign_in_click = WebDriverWait(appium_driver, 20).until(
-    #         EC.element_to_be_clickable(
-    #             (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign in"]'
-    #     ))
-    #     )
-    #     ele_sign_in_click.click()
-    #     signin.SigninPage.test_enter_signin_info(appium_driver)
+    def test_signin_details_tc002(self,appium_driver):
+        ele_sign_in_click = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable(
+                (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign in"]'
+        ))
+        )
+        ele_sign_in_click.click()
+        signin.SigninPage.test_enter_signin_info(appium_driver)
+    def test_signin_with_password_tc_003 (self,appium_driver):
+        ele_sign_in_click = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable(
+                (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign in"]'
+                 ))
+        )
+        ele_sign_in_click.click()
+        ele_login_with_pass_click = WebDriverWait(appium_driver, 20).until(
+                    EC.element_to_be_clickable(
+                        (AppiumBy.XPATH, '//android.widget.TextView[@text="Login with Password"]'
+                         ))
+                )
+        ele_login_with_pass_click.click()
+        signin.SigninPage.test_sign_with_password(appium_driver)
 
-    # def test_forgot_password (self, appium_driver):
-    #     ele_sign_in_click = WebDriverWait(appium_driver, 20).until(
-    #         EC.element_to_be_clickable(
-    #             (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign in"]'
-    #              ))
-    #     )
-    #     ele_sign_in_click.click()
-    #     ele_login_with_pass_click = WebDriverWait(appium_driver, 20).until(
-    #         EC.element_to_be_clickable(
-    #             (AppiumBy.XPATH, '//android.widget.TextView[@text="Login with Password"]'
-    #              ))
-    #     )
-    #     ele_login_with_pass_click.click()
-    #     forgotpassword.Forgotpassword.test_forgot_password(appium_driver)
-    #
+    def test_forgot_password_tc04 (self, appium_driver):
+        ele_sign_in_click = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable(
+                (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign in"]'
+                 ))
+        )
+        ele_sign_in_click.click()
+        ele_login_with_pass_click = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable(
+                (AppiumBy.XPATH, '//android.widget.TextView[@text="Login with Password"]'
+                 ))
+        )
+        ele_login_with_pass_click.click()
+        forgotpassword.Forgotpassword.test_forgot_password(appium_driver)
+    def test_current_location_tc (self,appium_driver):
+        ele_change_location = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable((AppiumBy.XPATH, '//android.widget.TextView[@text="Hyderabad"]'))
+        )
+        ele_change_location.click()
+        ele_current_location = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable((AppiumBy.XPATH, '//android.widget.TextView[@text=" Current Location"]'))
+        )
+        ele_current_location.click()
+        ele_conf_continue = WebDriverWait(appium_driver, 20).until(
+            EC.presence_of_element_located(
+                (AppiumBy.XPATH,
+                 '//android.widget.TextView[@text="Confirm & Continue"]')
+            )
+        )
+        ele_conf_continue.click()
+        WebDriverWait(appium_driver, 20).until(
+            EC.visibility_of_element_located((AppiumBy.XPATH, '//android.widget.ImageView[@resource-id="NotificationTest"]'))
+        )
+        print("Location change passed")
+
+
+    def test_sight_tight_and_logout_tc009 (self,appium_driver):
+        el = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable((
+                AppiumBy.XPATH, '(//android.widget.TextView[@content-desc="Docile"])[2]'
+            ))
+        )
+        el.click()
+        ele_get_started = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable((AppiumBy.XPATH, '//android.widget.TextView[@text="Get Started"]'))
+        )
+        ele_get_started.click()
+        WebDriverWait(appium_driver, 20).until(
+            EC.visibility_of_element_located(
+                (AppiumBy.XPATH, '//android.widget.TextView[@text="Sit Tight! We\'re Coming soon!"]'))
+        )
+        print("sit Tight, we're coming soon test passed")
     #
     #
     #
@@ -92,16 +141,17 @@ class TestAppiumAutomation:
     #     ele_dont_acc_sign_up.click()
     #     signup.SignupPage.fill_signup_details(appium_driver)
     #
-    # def test_signup_homepage_click(self, appium_driver):
-    #     ele_signup_home_click = WebDriverWait(appium_driver, 20).until(
-    #         EC.element_to_be_clickable(
-    #             (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign up"]'
-    #     ))
-    #     )
-    #     ele_signup_home_click.click()
-    #     signup.SignupPage.fill_signup_details(appium_driver)
-    #     signin.SigninPage.test_enter_signin_info(appium_driver)
-    #
+    def test_signup_homepage_click(self, appium_driver):
+        
+        ele_signup_home_click = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable(
+                (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign up"]'
+        ))
+        )
+        ele_signup_home_click.click()
+        signup.SignupPage.fill_signup_details(appium_driver)
+        signin.SigninPage.test_enter_signin_info(appium_driver)
+
     # def test_signin_with_pass(self,appium_driver):
     #     ele_login_with_pass_click = WebDriverWait(appium_driver, 20).until(
     #         EC.element_to_be_clickable(
