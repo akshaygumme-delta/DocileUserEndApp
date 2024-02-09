@@ -1,5 +1,4 @@
 import time
-
 import pytest
 import inspect
 import allure
@@ -32,14 +31,14 @@ def appium_driver():
     options = AppiumOptions()
     options.load_capabilities({
         "platformName": "Android",
-        "deviceName": "RZ8R21SMYNN",
+        "deviceName": "adb-RZ8R21SMYNN-i8os4l._adb-tls-connect._tcp",
     })
 
     driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", options=options)
     yield driver
     driver.quit()
 
-@pytest.mark.usefixtures("appium_driver", "excel_results")
+@pytest.mark.usefixtures("appium_driver","excel_results")
 class TestAppiumAutomation:
     @staticmethod
     def test_click_docile_element_tc_01(appium_driver, excel_results):
@@ -54,8 +53,7 @@ class TestAppiumAutomation:
                 EC.visibility_of_element_located((AppiumBy.XPATH, '//android.widget.TextView[@text="Get Started"]'))
             )
             screenshot_name = f"test_click_docile_element_tc_01.png"
-            allure.attach(appium_driver.get_screenshot_as_png(), name="Screenshot",
-                          attachment_type=allure.attachment_type.PNG)
+
             appium_driver.save_screenshot(screenshot_name)
 
             print("App started Successfully")
@@ -63,43 +61,115 @@ class TestAppiumAutomation:
             result = "Pass"
             function_name = inspect.stack()[0][3]
             test_id = function_name.split("_")[-1]
-            screenshot_hyperlink = f'=HYPERLINK("{screenshot_name}", "Screenshot")'
-            ws.append([f"TC-{test_id}", function_name, result,screenshot_hyperlink])
+            screenshot_hyperlink = f'=HYPERLINK("{screenshot_name}", "screenshot_tc_01")'
+            ws.append([f"TC-{test_id}", function_name, result,screenshot_hyperlink,"None","None","open the docile app","As Expected","APK","None"])
             wb.save("automation_test_report_ss.xlsx")
         except TimeoutException:
+            screenshot_name = f"test_click_docile_element_tc_01.png"
+            appium_driver.save_screenshot(screenshot_name)
             print("TimeoutException: Element not found within the specified timeout")
             result = "Fail"
-        except AssertionError:
-            print("AssertionError: Test assertion failed")
-            result = "Fail"
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
-            result = "Fail"
-        # finally:
-        #     function_name = inspect.stack()[0][3]
-        #     test_id = function_name.split("_")[-1]
-        #     ws.append([f"TC-{test_id}", function_name, result,screenshot_name])
-        #     wb.save("test_results.xlsx")
+            function_name = inspect.stack()[0][3]
+            test_id = function_name.split("_")[-1]
+            screenshot_hyperlink = f'=HYPERLINK("{screenshot_name}", "screenshot_tc_01")'
+            ws.append([f"TC-{test_id}", function_name, result,screenshot_hyperlink,"High","Try using ID or Xpath","open docile App","Not opening","APK","it's not clicking the app icon"])
+            wb.save("test_results.xlsx")
 
 
     def test_getting_start_element_tc_02(self, appium_driver):
         try:
             getstarted.start.test_click_get_started_element(appium_driver)
-            allure.attach(appium_driver.get_screenshot_as_png(), name="Screenshot",
-                          attachment_type=allure.attachment_type.PNG)
+            screenshot_name = f"test_click_docile_element_tc_02.png"
+            appium_driver.save_screenshot(screenshot_name)
             print('Getting Started button successfully clicked')
             assert True  # Example assertion
             result = "Pass"
-
+            function_name = inspect.stack()[0][3]
+            test_id = function_name.split("_")[-1]
+            screenshot_hyperlink = f'=HYPERLINK("{screenshot_name}", "Screenshot_tc02.png")'
+            ws.append([f"TC-{test_id}", function_name, result, screenshot_hyperlink,"None","None","click on get started","As Expected","APK","None"])
+            wb.save("automation_test_report_ss.xlsx")
 
         except TimeoutException:
+            screenshot_name = f"test_click_docile_element_tc_02.png"
+            appium_driver.save_screenshot(screenshot_name)
+            print("TimeoutException: Element not found within the specified timeout","High","Try using ID or Xpath", "get start clcik","click is disabled","APK","It's not clicking getting started")
+            result = "Fail"
+            function_name = inspect.stack()[0][3]
+            test_id = function_name.split("_")[-1]
+            screenshot_hyperlink = f'=HYPERLINK("{screenshot_name}", "Screenshot_tc02.png")'
+            ws.append([f"TC-{test_id}", function_name, result, screenshot_hyperlink])
+            wb.save("automation_test_report_ss.xlsx")
+
+
+    def test_signup_homepage_click_tc_03(self, appium_driver):
+        try:
+            ele_signup_home_click = WebDriverWait(appium_driver, 20).until(
+                EC.element_to_be_clickable(
+                    (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign up"]'
+            ))
+            )
+            ele_signup_home_click.click()
+            signup.SignupPage.fill_signup_details(appium_driver)
+            screenshot_name ="test_signup_ss.png"
+            appium_driver.save_screenshot(screenshot_name)
+            # signin.SigninPage.test_enter_signin_info(appium_driver)
+            assert True  # Example assertion
+            result = "Pass"
+            function_name = inspect.stack()[0][3]
+            test_id = function_name.split("_")[-1]
+            screenshot_hyperlink = f'=HYPERLINK("{screenshot_name}", "test_signup_ss.png")'
+            ws.append(
+                [f"TC-{test_id}", function_name, result, screenshot_hyperlink, "None", "None", "signup successfully done",
+                 "As Expected", "APK", "None"])
+            wb.save("automation_test_report_ss.xlsx")
+
+        except TimeoutException:
+            result = "Fail"
+            screenshot_name = "test_signup_ss.png"
+            appium_driver.save_screenshot(screenshot_name)
+            function_name = inspect.stack()[0][3]
+            test_id = function_name.split("_")[-1]
+            screenshot_hyperlink = f'=HYPERLINK("{screenshot_name}", "test_signup_ss.png")'
+            ws.append(
+                [f"TC-{test_id}", function_name, result, screenshot_hyperlink, "None", "None",
+                 "signup successfully done",
+                 "signup failed", "APK", "check the signup procedure manually once"])
+            wb.save("automation_test_report_ss.xlsx")
+
+    def test_signin_details_tc_04(self,appium_driver):
+        try:
+            ele_sign_in_click = WebDriverWait(appium_driver, 20).until(
+                EC.element_to_be_clickable(
+                    (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign in"]'
+            ))
+            )
+            ele_sign_in_click.click()
+            signin.SigninPage.test_enter_signin_info(appium_driver)
+            screenshot_name="test_signin_success.png"
+            appium_driver.save_screenshot(screenshot_name)
+            assert True  # Example assertion
+            result = "Pass"
+            function_name = inspect.stack()[0][3]
+            test_id = function_name.split("_")[-1]
+            screenshot_hyperlink = f'=HYPERLINK("{screenshot_name}", "test_signin_success.png")'
+            ws.append(
+                [f"TC-{test_id}", function_name, result, screenshot_hyperlink, "None", "None",
+                 "signin successfully done",
+                 "As Expected", "APK", "None"])
+            wb.save("automation_test_report_ss.xlsx")
+        except TimeoutException:
+            screenshot_name="test_sigin_fail.png"
+            appium_driver.save_screenshot(screenshot_name)
             print("TimeoutException: Element not found within the specified timeout")
             result = "Fail"
-        function_name = inspect.stack()[0][3]
-
-        test_id = function_name.split("_")[-1]
-
-        ws.append([f"TC-{test_id}", function_name, result])
+            function_name = inspect.stack()[0][3]
+            test_id = function_name.split("_")[-1]
+            screenshot_hyperlink = f'=HYPERLINK("{screenshot_name}", "test_sigin_fail.png")'
+            ws.append(
+                [f"TC-{test_id}", function_name, result, screenshot_hyperlink, "Very High", "check the xpath's of element's",
+                 "signin successfully done",
+                 "signin failed", "APK", "Make sure to do changes and then signin"])
 
     def test_add_to_cart_tc_03(self, appium_driver):
         try:
@@ -152,25 +222,7 @@ class TestAppiumAutomation:
         test_id = function_name.split("_")[-1]
 
         ws.append([f"TC-{test_id}", function_name, result])
-    def test_signin_details_tc_06(self,appium_driver):
-        try:
-            ele_sign_in_click = WebDriverWait(appium_driver, 20).until(
-                EC.element_to_be_clickable(
-                    (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign in"]'
-            ))
-            )
-            ele_sign_in_click.click()
-            signin.SigninPage.test_enter_signin_info(appium_driver)
-            assert True  # Example assertion
-            result = "Pass"
-        except TimeoutException:
-            print("TimeoutException: Element not found within the specified timeout")
-            result = "Fail"
-        function_name = inspect.stack()[0][3]
 
-        test_id = function_name.split("_")[-1]
-
-        ws.append([f"TC-{test_id}", function_name, result])
     def test_signin_with_password_tc_07 (self,appium_driver):
         try:
             ele_sign_in_click = WebDriverWait(appium_driver, 20).until(
@@ -263,27 +315,27 @@ class TestAppiumAutomation:
         ele_dont_acc_sign_up.click()
         signup.SignupPage.fill_signup_details(appium_driver)
 
-    def test_signup_homepage_click(self, appium_driver):
-        try:
-            ele_signup_home_click = WebDriverWait(appium_driver, 20).until(
-                EC.element_to_be_clickable(
-                    (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign up"]'
-            ))
-            )
-            ele_signup_home_click.click()
-            signup.SignupPage.fill_signup_details(appium_driver)
-            signin.SigninPage.test_enter_signin_info(appium_driver)
-            assert True  # Example assertion
-            result = "Pass"
-
-        except AssertionError:
-            result = "Fail"
-
-        function_name = inspect.stack()[0][3]
-
-        line_number = inspect.getframeinfo(inspect.currentframe()).lineno
-
-        ws.append([f"TC-{line_number}", function_name, result])
+    # def test_signup_homepage_click(self, appium_driver):
+    #     try:
+    #         ele_signup_home_click = WebDriverWait(appium_driver, 20).until(
+    #             EC.element_to_be_clickable(
+    #                 (AppiumBy.XPATH, '//android.widget.TextView[@text="Sign up"]'
+    #         ))
+    #         )
+    #         ele_signup_home_click.click()
+    #         signup.SignupPage.fill_signup_details(appium_driver)
+    #         signin.SigninPage.test_enter_signin_info(appium_driver)
+    #         assert True  # Example assertion
+    #         result = "Pass"
+    #
+    #     except AssertionError:
+    #         result = "Fail"
+    #
+    #     function_name = inspect.stack()[0][3]
+    #
+    #     line_number = inspect.getframeinfo(inspect.currentframe()).lineno
+    #
+    #     ws.append([f"TC-{line_number}", function_name, result])
 
     def test_signin_with_pass(self,appium_driver):
         ele_login_with_pass_click = WebDriverWait(appium_driver, 20).until(

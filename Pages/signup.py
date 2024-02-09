@@ -20,7 +20,7 @@ class SignupPage:
         ele_full_name.clear()
 
         # Enter the full name into the input field
-        ele_full_name.send_keys('Akshay Gumme')
+        ele_full_name.send_keys('A Gumme')
 
         # Call the enter_mobile_no method from the TestAppiumAutomation class
         ele_mobile_no = WebDriverWait(appium_driver, 20).until(
@@ -43,3 +43,7 @@ class SignupPage:
         )
 
         ele_continue_with_mobile_no.click()
+        ele_select_next_button = WebDriverWait(appium_driver, 20).until(
+            EC.element_to_be_clickable((AppiumBy.XPATH, '//android.widget.TextView[@text="Next"]'))
+        )
+        ele_select_next_button.click()
