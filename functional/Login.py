@@ -1,3 +1,4 @@
+import time
 from Driver.appiumandroid import AppiumDriverManager
 from Pages.elementsaccess import AppiumElementFinder
 import logging
@@ -22,10 +23,13 @@ for col in range(1, len(headers) + 1):
 def write_test_result(issue_id, issue_description, test_result, screenshot, severity_level,
                       steps_to_reproduce, expected_behavior, actual_behavior, device_platform,
                       additional_notes_comments):
-    sheet.append([issue_id, issue_description, test_result, screenshot, severity_level,
-                  steps_to_reproduce, expected_behavior, actual_behavior, device_platform,
-                  additional_notes_comments])
-    workbook.save('testcase_results.xlsx')
+    try:
+        sheet.append([issue_id, issue_description, test_result, screenshot, severity_level,
+                      steps_to_reproduce, expected_behavior, actual_behavior, device_platform,
+                      additional_notes_comments])
+        workbook.save('testcase_results.xlsx')
+    except Exception as e:
+        logging.error(f"Error writing test result to Excel: {e}")
 
 
 def test_successful_login():
@@ -42,14 +46,15 @@ def test_successful_login():
         element_finder.find_send_data_by_xpath('//android.widget.EditText[@text="Phone Number"]').send_keys(
             "7972951602")
 
-        element_finder.find_clickable_element_by_xpath('//android.widget.Button[@text="Continue"]').click()
-        element_finder.find_clickable_element_by_xpath('//android.widget.Button[@text="Next"]').click()
+        element_finder.find_clickable_element_by_xpath('//android.widget.TextView[@text="Continue"]').click()
+        time.sleep(25)
+        element_finder.find_clickable_element_by_xpath('//android.widget.TextView[@text="Next"]').click()
 
         welcome_message = element_finder.find_visible_element_by_xpath(
-            '//android.widget.TextView[contains(@text, "Sit Tight! We\'re Coming Soon ")]').text
-        assert "Welcome" in welcome_message, "Login was not successful"
+            '//android.widget.TextView[@text="Docile"]').text
+        assert "Docile" in welcome_message, "Login was not successful"
         logging.info("Successful login test passed")
-
+        print("login success")
         # Write test result to Excel
         write_test_result(issue_id='1', issue_description='Login with valid credentials',
                           test_result='Passed', screenshot='screenshot1.png',
@@ -82,10 +87,11 @@ def test_invalid_login():
             element_finder.find_clickable_element_by_xpath(xpath).click()
 
         element_finder.find_send_data_by_xpath('//android.widget.EditText[@text="Phone Number"]').send_keys("87878778**")
+        element_finder.find_clickable_element_by_xpath('//android.widget.TextView[@text="Continue"]').click()
 
         error_message = element_finder.find_visible_element_by_xpath(
-            '//android.widget.TextView[contains(@text, "Sit Tight! We\'re Coming soon")]').text
-        assert "Invalid" in error_message, "Login was expected to fail with invalid credentials"
+            '//android.widget.TextView[@text="Account not found, or not activated"]').text
+        assert "not found" in error_message, "Login was expected to fail with invalid credentials"
         logging.info("Invalid login test passed")
 
         # Write test result to Excel

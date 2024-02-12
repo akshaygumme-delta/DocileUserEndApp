@@ -1,0 +1,13 @@
+2024-02-12 12:20:17,794 - ERROR: Failed to execute successful login test: 'NoneType' object has no attribute 'click'
+2024-02-12 12:21:02,702 - ERROR: Failed to execute successful login test: 'NoneType' object has no attribute 'click'
+2024-02-12 12:22:18,704 - ERROR: Failed to execute successful login test: 'NoneType' object has no attribute 'text'
+2024-02-12 12:27:47,814 - ERROR: Failed to execute successful login test: 'NoneType' object has no attribute 'text'
+2024-02-12 12:29:08,129 - ERROR: Failed to execute successful login test: Login was not successful
+2024-02-12 12:39:08,825 - ERROR: Failed to execute successful login test: Login was not successful
+2024-02-12 12:42:01,475 - ERROR: Failed to execute successful login test: Login was not successful
+2024-02-12 14:11:39,805 - ERROR: Failed to execute successful login test: 'NoneType' object has no attribute 'click'
+2024-02-12 14:12:34,803 - ERROR: Failed to execute successful login test: Login was not successful
+2024-02-12 14:16:19,845 - ERROR: Failed to execute successful login test: Login was not successful
+2024-02-12 14:22:31,052 - INFO: Successful login test passed
+2024-02-12 14:47:35,101 - ERROR: Failed to execute invalid login test: 'NoneType' object has no attribute 'text'
+2024-02-12 14:49:06,516 - INFO: Invalid login test passed
