@@ -32,7 +32,8 @@ def write_headers():
         logging.error(f"Error writing headers to Excel: {e}")
 
 
-write_headers()
+if all(cell.value is None for cell in ws[1]):
+    write_headers()
 
 
 def write_test_result(issue_id, issue_description, test_result, screenshot, severity_level,

@@ -11,7 +11,7 @@ logging.basicConfig(filename='test_log.log', level=logging.INFO, format='%(ascti
 
 # Load existing workbook or create a new one if it doesn't exist
 try:
-    wb = load_workbook("automation_test_report.xlsx")
+    wb = load_workbook("automation_test_report1.xlsx")
 except FileNotFoundError:
     wb = Workbook()
 
@@ -34,7 +34,8 @@ def write_headers():
         logging.error(f"Error writing headers to Excel: {e}")
 
 
-write_headers()
+if all(cell.value is None for cell in ws[1]):
+    write_headers()
 
 
 def write_test_result(issue_id, issue_description, test_result, screenshot, severity_level,
@@ -58,7 +59,7 @@ def write_test_result(issue_id, issue_description, test_result, screenshot, seve
             screenshot.width = 200  # Set width in pixels
             screenshot.height = 100
             ws.add_image(screenshot, cell_reference)  # Adjust cell position as needed
-            wb.save('automation_test_report.xlsx')
+            wb.save('automation_test_report1.xlsx')
     except Exception as e:
         logging.error(f"Error writing test result to Excel: {e}")
 

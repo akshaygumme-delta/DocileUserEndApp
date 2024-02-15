@@ -1,4 +1,3 @@
-
 import time
 from Driver.appiumandroid import AppiumDriverManager
 from Pages.elementsaccess import AppiumElementFinder
@@ -8,14 +7,11 @@ from openpyxl.styles import Font
 from openpyxl.drawing.image import Image as xlImage
 from openpyxl.utils import get_column_letter
 
-
-
-
 logging.basicConfig(filename='test_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 
 # Load existing workbook or create a new one if it doesn't exist
 try:
-    wb = load_workbook("automation_test_report.xlsx")
+    wb = load_workbook("automation_test_report1.xlsx")
 except FileNotFoundError:
     wb = Workbook()
 
@@ -38,7 +34,8 @@ def write_headers():
         logging.error(f"Error writing headers to Excel: {e}")
 
 
-write_headers()
+if all(cell.value is None for cell in ws[1]):
+    write_headers()
 
 
 def write_test_result(issue_id, issue_description, test_result, screenshot, severity_level,
@@ -62,7 +59,7 @@ def write_test_result(issue_id, issue_description, test_result, screenshot, seve
             screenshot.width = 200  # Set width in pixels
             screenshot.height = 100
             ws.add_image(screenshot, cell_reference)  # Adjust cell position as needed
-            wb.save('automation_test_report.xlsx')
+            wb.save('automation_test_report1.xlsx')
     except Exception as e:
         logging.error(f"Error writing test result to Excel: {e}")
 
@@ -73,11 +70,11 @@ def test_add_cart():
     element_finder = AppiumElementFinder(driver)
     try:
         add_xpath = ['//android.widget.TextView[@text="Vegetables"]', '//android.widget.TextView[@text="Vegetables"]',
-                     '(//android.widget.TextView[@text="Add"])[1]','(//android.widget.TextView[@text="Add"])[2]',
+                     '(//android.widget.TextView[@text="Add"])[1]', '(//android.widget.TextView[@text="Add"])[2]',
                      '(//android.widget.TextView[@text="OK"])',
-                     '//android.view.ViewGroup[@resource-id="goBackBtn"]/android.widget.ImageView ',]
-                     # '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[4]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[3]/android.view.ViewGroup/android.view.ViewGroup[6]/android.widget.ImageView'
-                     # , '//android.widget.TextView[@text="CONTINUE"]']
+                     '//android.view.ViewGroup[@resource-id="goBackBtn"]/android.widget.ImageView ', ]
+        # '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[4]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[3]/android.view.ViewGroup/android.view.ViewGroup[6]/android.widget.ImageView'
+        # , '//android.widget.TextView[@text="CONTINUE"]']
         for i in add_xpath:
             element_finder.find_clickable_element_by_xpath(i).click()
         time.sleep(5)
@@ -105,4 +102,3 @@ def test_add_cart():
                           expected_behavior='Product need to add in Cart',
                           actual_behavior='Failed due to xpath',
                           device_platform='Android', additional_notes_comments='check steps')
-

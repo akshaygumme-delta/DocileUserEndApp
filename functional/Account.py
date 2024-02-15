@@ -7,13 +7,11 @@ from openpyxl.styles import Font
 from openpyxl.drawing.image import Image as xlImage
 from openpyxl.utils import get_column_letter
 
-
-
 logging.basicConfig(filename='test_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 
 # Load existing workbook or create a new one if it doesn't exist
 try:
-    wb = load_workbook("automation_test_report.xlsx")
+    wb = load_workbook("automation_test_report1.xlsx")
 except FileNotFoundError:
     wb = Workbook()
 
@@ -36,7 +34,8 @@ def write_headers():
         logging.error(f"Error writing headers to Excel: {e}")
 
 
-write_headers()
+if all(cell.value is None for cell in ws[1]):
+    write_headers()
 
 
 def write_test_result(issue_id, issue_description, test_result, screenshot, severity_level,
@@ -60,27 +59,29 @@ def write_test_result(issue_id, issue_description, test_result, screenshot, seve
             screenshot.width = 200  # Set width in pixels
             screenshot.height = 100
             ws.add_image(screenshot, cell_reference)  # Adjust cell position as needed
-            wb.save('automation_test_report.xlsx')
+            wb.save('automation_test_report1.xlsx')
     except Exception as e:
         logging.error(f"Error writing test result to Excel: {e}")
+
 
 def test_account():
     driver_manager = AppiumDriverManager()
     driver = driver_manager.appium_driver()
     element_finder = AppiumElementFinder(driver)
     try:
-        xpaths = ['//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[4]/android.view.ViewGroup/android.view.ViewGroup[6]/android.widget.ImageView',
-                  '//android.view.ViewGroup[@resource-id="TestOrder"]',
-                  '//android.view.ViewGroup[@resource-id="goBackBtn"]',
-                  '//android.widget.TextView[@text="Notifications"]',
-                  '//android.view.ViewGroup[@resource-id="goBackBtn"]',
-                  '//android.widget.TextView[@text="Reset Password"]',
-                  '//android.view.ViewGroup[@resource-id="TestGo"]/android.widget.ImageView',
-                  '//android.widget.TextView[@text="Delete Account"]',
-                  '//android.widget.Button[@resource-id="android:id/button1"]',
-                  '//android.widget.TextView[@text="Signout"]'
-                  '//android.widget.Button[@resource-id="android:id/button1"]'
-                  ]
+        xpaths = [
+            '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[4]/android.view.ViewGroup/android.view.ViewGroup[6]/android.widget.ImageView',
+            '//android.view.ViewGroup[@resource-id="TestOrder"]',
+            '//android.view.ViewGroup[@resource-id="goBackBtn"]',
+            '//android.widget.TextView[@text="Notifications"]',
+            '//android.view.ViewGroup[@resource-id="goBackBtn"]',
+            '//android.widget.TextView[@text="Reset Password"]',
+            '//android.view.ViewGroup[@resource-id="TestGo"]/android.widget.ImageView',
+            '//android.widget.TextView[@text="Delete Account"]',
+            '//android.widget.Button[@resource-id="android:id/button1"]',
+            '//android.widget.TextView[@text="Signout"]'
+            '//android.widget.Button[@resource-id="android:id/button1"]'
+            ]
         for i in xpaths:
             element_finder.find_clickable_element_by_xpath(i).click()
         screenshot_path = "account.png"

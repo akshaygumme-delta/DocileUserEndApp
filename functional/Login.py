@@ -195,7 +195,8 @@ def write_headers():
         logging.error(f"Error writing headers to Excel: {e}")
 
 
-write_headers()
+if all(cell.value is None for cell in ws[1]):
+    write_headers()
 
 
 def write_test_result(issue_id, issue_description, test_result, screenshot, severity_level,
@@ -229,13 +230,16 @@ def test_successful_login():
     driver = driver_manager.appium_driver()
     element_finder = AppiumElementFinder(driver)
     try:
+        wb1 = load_workbook("testcase_inputs.xlsx")
+        ws1 = wb1.active
+        phone_number = ws1['A2'].value
         login_xpaths = ['//android.widget.TextView[@text="Docile"]', '//android.widget.TextView[@text="Get Started"]',
                         '//android.widget.TextView[@text="Sign in"]']
         for xpath in login_xpaths:
             element_finder.find_clickable_element_by_xpath(xpath).click()
 
         element_finder.find_send_data_by_xpath('//android.widget.EditText[@text="Phone Number"]').send_keys(
-            "7972951602")
+            phone_number)
 
         element_finder.find_clickable_element_by_xpath('//android.widget.TextView[@text="Continue"]').click()
         time.sleep(25)

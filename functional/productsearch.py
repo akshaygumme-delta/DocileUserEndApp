@@ -6,11 +6,13 @@ import openpyxl
 from openpyxl.styles import Font
 from selenium.webdriver.common.keys import Keys
 from openpyxl.drawing.image import Image as xlImage
+
 logging.basicConfig(filename='test_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
+from openpyxl import load_workbook, Workbook
 
 # Load existing workbook or create a new one if it doesn't exist
 try:
-    wb = load_workbook("automation_test_report.xlsx")
+    wb = load_workbook("automation_test_report1.xlsx")
 except FileNotFoundError:
     wb = Workbook()
 
@@ -33,7 +35,8 @@ def write_headers():
         logging.error(f"Error writing headers to Excel: {e}")
 
 
-write_headers()
+if all(cell.value is None for cell in ws[1]):
+    write_headers()
 
 
 def write_test_result(issue_id, issue_description, test_result, screenshot, severity_level,
@@ -57,7 +60,7 @@ def write_test_result(issue_id, issue_description, test_result, screenshot, seve
             screenshot.width = 200  # Set width in pixels
             screenshot.height = 100
             ws.add_image(screenshot, cell_reference)  # Adjust cell position as needed
-            wb.save('automation_test_report.xlsx')
+            wb.save('automation_test_report1.xlsx')
     except Exception as e:
         logging.error(f"Error writing test result to Excel: {e}")
 
@@ -67,7 +70,8 @@ def test_product_search():
     driver = driver_manager.appium_driver()
     element_finder = AppiumElementFinder(driver)
     try:
-        element_finder.find_clickable_element_by_xpath('//android.view.ViewGroup[@resource-id="TestHomeSearchnav"]/android.widget.ImageView').click()
+        element_finder.find_clickable_element_by_xpath(
+            '//android.view.ViewGroup[@resource-id="TestHomeSearchnav"]/android.widget.ImageView').click()
         search = element_finder.find_send_data_by_xpath('//android.widget.EditText[@text="Search"]')
         search.send_keys('Biscuits')
         screenshot_path = "Search_prod.png"
