@@ -70,7 +70,8 @@ def test_add_cart():
     element_finder = AppiumElementFinder(driver)
     try:
         add_xpath = ['//android.widget.TextView[@text="Vegetables"]', '//android.widget.TextView[@text="Vegetables"]',
-                     '(//android.widget.TextView[@text="Add"])[1]', '(//android.widget.TextView[@text="Add"])[2]',
+                     '(//android.widget.TextView[@text="Added"])[1]', '(//android.widget.TextView[@text="OK"])',
+                     '(//android.widget.TextView[@text="Added"])[2]',
                      '(//android.widget.TextView[@text="OK"])',
                      '//android.view.ViewGroup[@resource-id="goBackBtn"]/android.widget.ImageView ', ]
         # '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[4]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[3]/android.view.ViewGroup/android.view.ViewGroup[6]/android.widget.ImageView'

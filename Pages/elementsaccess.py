@@ -2,6 +2,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import TimeoutException
+
+
 class AppiumElementFinder:
     def __init__(self, driver):
         self.driver = driver
@@ -15,7 +17,8 @@ class AppiumElementFinder:
         except Exception as e:
             print(f"Error finding element by XPath: {xpath}")
             return None
-    def find_send_data_by_xpath(self,xpath):
+
+    def find_send_data_by_xpath(self, xpath):
         try:
             element = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((AppiumBy.XPATH, xpath))

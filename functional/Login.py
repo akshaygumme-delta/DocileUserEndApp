@@ -244,6 +244,7 @@ def test_successful_login():
         element_finder.find_clickable_element_by_xpath('//android.widget.TextView[@text="Continue"]').click()
         time.sleep(25)
         element_finder.find_clickable_element_by_xpath('//android.widget.TextView[@text="Next"]').click()
+        time.sleep(15)
         screenshot_path = "login.png"
         driver.save_screenshot(screenshot_path)
         screenshot = xlImage(screenshot_path)

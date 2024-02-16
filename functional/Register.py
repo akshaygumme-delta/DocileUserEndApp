@@ -6,10 +6,10 @@ import openpyxl
 from openpyxl.styles import Font
 from openpyxl.drawing.image import Image as xlImage
 logging.basicConfig(filename='test_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
-
+from openpyxl import load_workbook, Workbook
 # Load existing workbook or create a new one if it doesn't exist
 try:
-    wb = load_workbook("automation_test_report.xlsx")
+    wb = load_workbook("automation_test_report1.xlsx")
 except FileNotFoundError:
     wb = Workbook()
 
@@ -57,7 +57,7 @@ def write_test_result(issue_id, issue_description, test_result, screenshot, seve
             screenshot.width = 200  # Set width in pixels
             screenshot.height = 100
             ws.add_image(screenshot, cell_reference)  # Adjust cell position as needed
-            wb.save('automation_test_report.xlsx')
+            wb.save('automation_test_report1.xlsx')
     except Exception as e:
         logging.error(f"Error writing test result to Excel: {e}")
 
@@ -80,8 +80,8 @@ def test_register_user():
         for i in range(len(xpath1)):
             element_finder.find_send_data_by_xpath(xpath1[i]).send_keys(sendkey[i])
         xpath2 = ['//android.widget.TextView[@text="Next"]',
-                  '//android.widget.TextView[@text="CONTINUE WITH +917972951602"]',
-                  '//android.widget.TextView[@text="Next"]']
+                  '//android.widget.TextView[@text="CONTINUE WITH +917972951602"]'
+                  ]
         for i in xpath2:
             element_finder.find_clickable_element_by_xpath(i).click()
         time.sleep(5)
@@ -92,7 +92,7 @@ def test_register_user():
         logging.info("Registration test passed")
         print("Registration success")
         # Write test result to Excel
-        write_test_result(issue_id='3', issue_description='Registered using correct mobile no.',
+        write_test_result(issue_id='1', issue_description='Registered using correct mobile no.',
                           test_result='Passed', screenshot=screenshot,
                           severity_level='None', steps_to_reproduce='None',
                           expected_behavior='User should registered successfully',
@@ -105,7 +105,7 @@ def test_register_user():
         driver.save_screenshot(screenshot_path)
         screenshot = xlImage(screenshot_path)
         # Write test result to Excel
-        write_test_result(issue_id='3', issue_description='Register with valid credentials',
+        write_test_result(issue_id='1', issue_description='Register with valid credentials',
                           test_result='Failed', screenshot=screenshot,
                           severity_level='High',
                           steps_to_reproduce='1. Open app\n 2. Click on signup 3. Enter valid credentials',
